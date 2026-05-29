@@ -1,14 +1,63 @@
-<DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width , initial-scale=1.0">
-      <title>learnsite1</title>
-      <link rel="stylesheet" href="style.css">
-      </head>
-      <body>
-        <h1>Hi welocome to learnsite1</h1>
-        <p>this is my first day of learnig html and my first try to lauch a site</p>
-      </body>
-  </html>
-</DOCTYPE>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learnsite1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Hi welcome to learnsite1</h1>
+    <p>this is my first day of learning html and my first try to launch a site</p>
+
+    <div class="wheel-wrapper">
+        <div class="pointer"></div>
+        <div class="wheel" id="wheel"></div>
+    </div>
+
+    <button id="spin-btn" onclick="spinWheel()">SPIN THE WHEEL</button>
+    <div id="result-text"></div>
+
+    <script>
+        // Your daily tasks matching the 4 colors clockwise:
+        // Blue (0-90°), Green (90-180°), Orange (180-270°), Red (270-360°)
+        const tasks = [
+            "anoy nirmal",
+            "anime",
+            "games",
+            "reels",
+        ];
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function spinWheel() {
+            if (isSpinning) return; // Stop clicks while spinning
+            isSpinning = true;
+            
+            document.getElementById('result-text').innerText = "Spinning...";
+
+            // Generate a massive random spin (5 full turns + a random angle)
+            const randomDegrees = Math.floor(Math.random() * 360);
+            const fullTurns = 5 * 360; 
+            currentRotation += fullTurns + randomDegrees;
+
+            // Spin the wheel using CSS
+            const wheel = document.getElementById('wheel');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            // Wait 4 seconds for the animation to finish
+            setTimeout(() => {
+                // Calculate exactly which slice landed under the top pointer
+                const actualFacingAngle = (360 - (currentRotation % 360)) % 360;
+                const taskIndex = Math.floor(actualFacingAngle / 90);
+                
+                // Show the random result
+                document.getElementById('result-text').innerText = `Result: ${tasks[taskIndex]}`;
+                isSpinning = false;
+            }, 4000); 
+        }
+    </script>
+</body>
+</html>
